@@ -1,13 +1,15 @@
 [build]
-  command = "npm run build"
   publish = "."
-  functions = "api"
+  command = "npm install"
+
+[dev]
+  port = 2091
+  publish = "public"
 
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
-  conditions = { MediaType = "text/html" }
 
 [[headers]]
   for = "/*"
@@ -15,7 +17,3 @@
     X-Frame-Options = "DENY"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
-
-[dev]
-  publish = "public"
-  port = 2091
