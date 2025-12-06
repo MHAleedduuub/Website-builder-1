@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بناء موقع بالذكاء الاصطناعي - Gemini AI</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/ai-builder.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard">
+        <!-- الشريط الجانبي -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fas fa-robot"></i>
+                <span>AI Builder</span>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="/dashboard">
+                    <i class="fas fa-home"></i> الرئيسية
+                </a>
+                <a href="/ai-builder" class="active">
+                    <i class="fas fa-magic"></i> بناء بالذكاء الاصطناعي
+                </a>
+                <a href="#" id="projectsLink">
+                    <i class="fas fa-folder"></i> مشاريعي
+                </a>
+                <a href="#" id="fileManagerLink">
+                    <i class="fas fa-upload"></i> إدارة الملفات
+                </a>
+                <a href="#">
+                    <i class="fas fa-cog"></i> الإعدادات
+                </a>
+            </nav>
+            
+            <div class="user-info">
+                <div class="user-avatar">
+                    <%= user.name.charAt(0) %>
+                </div>
+                <div class="user-details">
+                    <strong><%= user.name %></strong>
+                    <span><%= user.email %></span>
+                </div>
+                <form action="/api/auth/logout" method="POST">
+                    <button type="submit" class="btn-logout">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </form>
+            </div>
+        </aside>
+        
+        <!-- المحتوى الرئيسي -->
+        <main class="main-content">
+            <header class="main-header">
+                <h1><i class="fas fa-wand-magic-sparkle"></i> بناء موقع بالذكاء الاصطناعي</h1>
+                <p class="subtitle">باستخدام Gemini AI من جوجل</p>
+            </header>
+            
+            <div class="ai-builder-container">
+                <!-- نموذج الإدخال -->
+                <div class="input-section">
+                    <div class="form-group">
+                        <label for="siteDescription">
+                            <i class="fas fa-comment-dots"></i> صف موقعك الذي تريده
+                        </label>
+                        <textarea 
+                            id="siteDescription" 
+                            placeholder="مثال: أريد موقع أعمال احترافي مع قسم للخدمات، فريق العمل، اتصل بنا، ألوان زرقاء وبيضاء، تصميم عصري..."
+                            rows="5"
+                        ></textarea>
+                        <div class="hint">كلما كان الوصف أكثر تفصيلاً، كانت النتيجة أفضل</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="siteStyle">
+                            <i class="fas fa-palette"></i> اختر النمط التصميمي
+                        </label>
+                        <select id="siteStyle">
+                            <option value="حديث وعصري">حديث وعصري</option>
+                            <option value="بسيط وأنيق">بسيط وأنيق</option>
+                            <option value="مبتكر وجريء">مبتكر وجريء</option>
+                            <option value="احترافي وتقليدي">احترافي وتقليدي</option>
+                            <option value="فني وإبداعي">فني وإبداعي</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>
+                            <i class="fas fa-cogs"></i> الميزات المطلوبة
+                        </label>
+                        <div class="checkbox-group">
+                            <label>
+                                <input type="checkbox" name="features" value="تصميم متجاوب" checked>
+                                تصميم متجاوب (يعمل على الجوال)
+                            </label>
+                            <label>
+                                <input type="checkbox" name="features" value="نموذج اتصل بنا" checked>
+                                نموذج اتصل بنا
+                            </label>
+                            <label>
+                                <input type="checkbox" name="features" value="معرض الصور">
+                                معرض الصور
+                            </label>
+                            <label>
+                                <input type="checkbox" name="features" value="المدونة">
+                                قسم المدونة
+                            </label>
+                            <label>
+                                <input type="checkbox" name="features" value="المتجر الإلكتروني">
+                                متجر إلكتروني
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>
+                            <i class="fas fa-file"></i> الصفحات المطلوبة
+                        </label>
+                        <div class="checkbox-group">
+                            <label>
+                                <input type="checkbox" name="pages" value="الرئيسية" checked>
+                                الرئيسية
+                            </label>
+                            <label>
+                                <input type="checkbox" name="pages" value="من نحن" checked>
+                                من نحن
+                            </label>
+                            <label>
+                                <input type="checkbox" name="pages" value="الخدمات" checked>
+                                الخدمات
+                            </label>
+                            <label>
+                                <input type="checkbox" name="pages" value="المشاريع">
+                                المشاريع
+                            </label>
+                            <label>
+                                <input type="checkbox" name="pages" value="اتصل بنا" checked>
+                                اتصل بنا
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <button id="generateBtn" class="btn-primary btn-large">
+                        <i class="fas fa-magic"></i> أنشئ موقعي باستخدام Gemini AI
+                    </button>
+                    
+                    <div class="ai-info">
+                        <i class="fas fa-info-circle"></i>
+                        يستخدم هذا الموقع Gemini AI من جوجل لإنشاء مواقع ويب احترافية
+                    </div>
+                </div>
+                
+                <!-- معاينة النتيجة -->
+                <div class="preview-section">
+                    <div class="preview-header">
+                        <h3><i class="fas fa-eye"></i> معاينة الموقع</h3>
+                        <div class="preview-actions">
+                            <button id="refreshPreview" class="btn-small">
+                                <i class="fas fa-redo"></i> تحديث
+                            </button>
+                            <button id="downloadCode" class="btn-small">
+                                <i class="fas fa-download"></i> تحميل الكود
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="preview-container">
+                        <iframe id="sitePreview" sandbox="allow-scripts allow-same-origin"></iframe>
+                        <div id="loading" class="loading">
+                            <div class="spinner"></div>
+                            <p>جاري إنشاء الموقع باستخدام Gemini AI...</p>
+                            <p class="loading-note">هذه العملية قد تستغرق بضع ثواني</p>
+                        </div>
+                        <div id="previewPlaceholder" class="preview-placeholder">
+                            <i class="fas fa-laptop-code"></i>
+                            <h4>المعاينة ستظهر هنا</h4>
+                            <p>قم بإدخال وصف موقعك واضغط على "أنشئ موقعي"</p>
+                        </div>
+                    </div>
+                    
+                    <!-- تحسينات الذكاء الاصطناعي -->
+                    <div class="ai-suggestions">
+                        <h4><i class="fas fa-lightbulb"></i> اقتراحات Gemini AI</h4>
+                        <div id="suggestionsContent">
+                            <p>بعد إنشاء الموقع، سيقترح Gemini AI تحسينات لموقعك</p>
+                        </div>
+                        <button id="getSuggestions" class="btn-secondary btn-small" disabled>
+                            <i class="fas fa-wand-magic"></i> اقترح تحسينات
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- توليد محتوى إضافي -->
+                <div class="content-generation">
+                    <h3><i class="fas fa-feather-alt"></i> توليد محتوى باستخدام Gemini AI</h3>
+                    <div class="content-form">
+                        <div class="form-group">
+                            <input type="text" id="contentTopic" placeholder="موضوع المحتوى (مثال: أهمية التجارة الإلكترونية)">
+                            <select id="contentType">
+                                <option value="مقال">مقال</option>
+                                <option value="وصف">وصف المنتج/الخدمة</option>
+                                <option value="عنوان">عناوين رئيسية</option>
+                                <option value="فقرة">فقرة توضيحية</option>
+                            </select>
+                            <button id="generateContentBtn" class="btn-small">
+                                <i class="fas fa-robot"></i> توليد
+                            </button>
+                        </div>
+                        <div id="generatedContent" class="generated-content">
+                            <!-- المحتوى المولد سيظهر هنا -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- إدارة الملفات -->
+            <div class="file-manager" id="fileManager" style="display: none;">
+                <h3><i class="fas fa-folder-open"></i> إدارة ملفات المشروع</h3>
+                <div class="file-upload">
+                    <input type="file" id="fileInput" multiple>
+                    <label for="fileInput" class="btn-secondary">
+                        <i class="fas fa-upload"></i> رفع ملفات
+                    </label>
+                    <div class="file-list" id="fileList">
+                        <p>لا توجد ملفات بعد</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- نافذة عرض الكود -->
+    <div id="codeModal" class="modal">
+        <div class="modal-content code-modal">
+            <span class="close" onclick="closeCodeModal()">&times;</span>
+            <h3><i class="fas fa-code"></i> كود الموقع</h3>
+            <div class="code-tabs">
+                <button class="code-tab active" onclick="switchCodeTab('html')">HTML</button>
+                <button class="code-tab" onclick="switchCodeTab('css')">CSS</button>
+                <button class="code-tab" onclick="switchCodeTab('js')">JavaScript</button>
+            </div>
+            <pre id="htmlCode" class="code-content active"></pre>
+            <pre id="cssCode" class="code-content"></pre>
+            <pre id="jsCode" class="code-content"></pre>
+            <div class="modal-actions">
+                <button onclick="copyCode()" class="btn-small">
+                    <i class="fas fa-copy"></i> نسخ الكود
+                </button>
+                <button onclick="downloadAllCode()" class="btn-small">
+                    <i class="fas fa-download"></i> تحميل جميع الملفات
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="/js/ai-builder.js"></script>
+</body>
+</html>
