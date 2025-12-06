@@ -14,7 +14,7 @@ uploads/
 temp/
 
 # السجلات
-*.log
+.log
 
 # النظام
 .DS_Store
