@@ -1,4 +1,26 @@
 // إدارة المودال
+// إضافة هذا الجزء في بداية الملف
+const isNetlify = window.location.hostname.includes('netlify.app') || 
+                  window.location.hostname.includes('netlify.com');
+
+// تعديل base URL للطلبات
+const API_BASE_URL = isNetlify ? '' : '';
+
+// تحديث دوائل fetch
+async function loginUser(email, password) {
+    const response = await fetch(`${API_BASE_URL}/api/auth/login`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password })
+    });
+    
+    // ... باقي الكود
+}
+
+// تحديث جميع دوائل fetch الأخرى بالمثل
+
 const modal = document.getElementById('authModal');
 let currentTab = 'login';
 
