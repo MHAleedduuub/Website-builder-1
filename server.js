@@ -7,219 +7,189 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// ========== MIDDLEWARE ==========
+// Middleware
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 app.use(express.static('public'));
 
-// ========== SESSION (مبسط) ==========
+// Session
 const session = require('express-session');
 app.use(session({
-    secret: process.env.SESSION_SECRET || 'ai-builder-netlify-secret',
+    secret: process.env.SESSION_SECRET || 'netlify-ai-builder',
     resave: false,
     saveUninitialized: true,
-    cookie: { 
-        maxAge: 1000 * 60 * 60 * 24 // 24 ساعة
-    }
+    cookie: { maxAge: 1000 * 60 * 60 * 24 }
 }));
 
-// ========== TEMPLATE ENGINE ==========
+// EJS
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// ========== ROUTES ==========
+// ========== API ENDPOINTS ==========
 
-// الصفحة الرئيسية
-app.get('/', (req, res) => {
-    res.render('index', {
+// الصفحة الرئيسية (API)
+app.get('/api', (req, res) => {
+    res.json({
         title: 'بناء مواقع الويب بالذكاء الاصطناعي',
-        user: req.session.user,
-        baseUrl: process.env.BASE_URL || `http://localhost:${PORT}`
+        content: `
+            <div class="hero">
+                <h1><i class="fas fa-robot"></i> بناء مواقع الويب بالذكاء الاصطناعي</h1>
+                <p>أنشئ موقعك الإلكتروني في دقائق باستخدام الذكاء الاصطناعي - مجاناً تماماً!</p>
+                
+                <div class="features">
+                    <div class="feature">
+                        <i class="fas fa-magic"></i>
+                        <h3>إنشاء بالذكاء الاصطناعي</h3>
+                        <p>أوصف موقعك وسننشئه لك تلقائياً</p>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-upload"></i>
+                        <h3>رفع الملفات</h3>
+                        <p>ارفع صورك وملفاتك بسهولة</p>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-edit"></i>
+                        <h3>محرر كود مدمج</h3>
+                        <p>عدل كود موقعك مباشرة من المتصفح</p>
+                    </div>
+                </div>
+                
+                <div class="actions">
+                    <a href="/dashboard" class="btn btn-primary">
+                        <i class="fas fa-rocket"></i> ابدأ الآن
+                    </a>
+                    <a href="/ai-builder" class="btn btn-secondary">
+                        <i class="fas fa-magic"></i> جرب المنشئ الذكي
+                    </a>
+                </div>
+            </div>
+        `,
+        user: req.session.user
     });
 });
 
-// لوحة التحكم
-app.get('/dashboard', (req, res) => {
+// لوحة التحكم (API)
+app.get('/api/dashboard', (req, res) => {
     if (!req.session.user) {
-        return res.redirect('/');
+        return res.status(401).json({ error: 'غير مسموح' });
     }
-    res.render('dashboard', {
-        title: 'لوحة التحكم',
-        user: req.session.user
-    });
-});
-
-// منشئ الذكاء الاصطناعي
-app.get('/ai-builder', (req, res) => {
-    res.render('ai-builder', {
-        title: 'مُنشئ الذكاء الاصطناعي',
-        user: req.session.user
-    });
-});
-
-// ========== API ROUTES ==========
-
-// API للذكاء الاصطناعي
-app.post('/api/generate', async (req, res) => {
-    try {
-        const { description, style, type } = req.body;
-        
-        // استجابة تجريبية (يمكن إضافة Gemini AI لاحقاً)
-        const response = {
-            success: true,
-            message: 'تم إنشاء الموقع بنجاح',
-            projectId: `project_${Date.now()}`,
-            html: generateHTML(description, type),
-            css: generateCSS(style),
-            js: generateJS(),
-            timestamp: new Date().toISOString()
-        };
-        
-        res.json(response);
-        
-    } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: 'حدث خطأ في الإنشاء',
-            error: error.message
-        });
-    }
-});
-
-// تسجيل الدخول
-app.post('/api/login', (req, res) => {
-    const { email, password } = req.body;
     
-    // مصادقة تجريبية
-    if (email && password) {
-        req.session.user = {
-            id: Date.now().toString(),
-            email: email,
-            name: email.split('@')[0],
-            createdAt: new Date().toISOString()
+    res.json({
+        title: 'لوحة التحكم',
+        content: `
+            <div class="dashboard">
+                <h1>مرحباً، ${req.session.user.name || 'مستخدم'}</h1>
+                <div class="dashboard-cards">
+                    <div class="card">
+                        <i class="fas fa-plus"></i>
+                        <h3>إنشاء موقع جديد</h3>
+                        <a href="/ai-builder">ابدأ الآن</a>
+                    </div>
+                    <div class="card">
+                        <i class="fas fa-folder"></i>
+                        <h3>مشاريعك</h3>
+                        <p>0 مشروع</p>
+                    </div>
+                    <div class="card">
+                        <i class="fas fa-cog"></i>
+                        <h3>الإعدادات</h3>
+                        <a href="#">تعديل</a>
+                    </div>
+                </div>
+            </div>
+        `,
+        user: req.session.user
+    });
+});
+
+// منشئ الذكاء الاصطناعي (API)
+app.get('/api/ai-builder', (req, res) => {
+    res.json({
+        title: 'مُنشئ الذكاء الاصطناعي',
+        content: `
+            <div class="ai-builder">
+                <h1><i class="fas fa-wand-magic-sparkle"></i> منشئ الذكاء الاصطناعي</h1>
+                <p>أوصف موقعك ودع الذكاء الاصطناعي ينشئه لك</p>
+                
+                <div class="builder-form">
+                    <textarea id="description" placeholder="صِف موقعك الذي تريده..."></textarea>
+                    <select id="type">
+                        <option value="business">موقع أعمال</option>
+                        <option value="portfolio">موقع شخصي</option>
+                        <option value="ecommerce">متجر إلكتروني</option>
+                        <option value="blog">مدونة</option>
+                    </select>
+                    <button onclick="generateSite()">إنشاء الموقع</button>
+                </div>
+                
+                <div id="result" class="result"></div>
+            </div>
+        `,
+        user: req.session.user
+    });
+});
+
+// إنشاء موقع (API)
+app.post('/api/generate-site', async (req, res) => {
+    try {
+        const { description, type } = req.body;
+        
+        const templates = {
+            business: generateBusinessSite(description),
+            portfolio: generatePortfolioSite(description),
+            ecommerce: generateEcommerceSite(description),
+            blog: generateBlogSite(description)
         };
+        
+        const result = templates[type] || templates.business;
         
         res.json({
             success: true,
-            message: 'تم تسجيل الدخول بنجاح',
-            user: req.session.user
+            message: 'تم إنشاء الموقع بنجاح',
+            projectId: `project_${Date.now()}`,
+            html: result.html,
+            css: result.css,
+            js: result.js
         });
-    } else {
-        res.status(401).json({
-            success: false,
-            message: 'بيانات الدخول غير صحيحة'
-        });
+        
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
 });
 
-// تسجيل الخروج
-app.post('/api/logout', (req, res) => {
-    req.session.destroy();
-    res.json({ success: true, message: 'تم تسجيل الخروج' });
-});
-
-// تحميل الملفات
-app.post('/api/upload', (req, res) => {
-    // رفع ملفات تجريبي
-    res.json({
-        success: true,
-        message: 'تم رفع الملف بنجاح',
-        filename: `file_${Date.now()}.txt`,
-        url: '#'
-    });
-});
-
-// صفحة 404
-app.use((req, res) => {
-    res.status(404).render('404', {
-        title: 'الصفحة غير موجودة',
-        user: req.session.user
-    });
-});
-
 // ========== HELPER FUNCTIONS ==========
-function generateHTML(description, type) {
-    return `<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>موقعي الإلكتروني</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
-</head>
-<body>
-    <div class="container">
-        <h1>${description || 'موقعي الجديد'}</h1>
-        <p>تم إنشاء هذا الموقع باستخدام الذكاء الاصطناعي</p>
-        <p>نوع الموقع: ${type || 'عام'}</p>
-        <p>التاريخ: ${new Date().toLocaleDateString('ar-SA')}</p>
-    </div>
-</body>
-</html>`;
+function generateBusinessSite(description) {
+    return {
+        html: `<!DOCTYPE html><html><body><h1>${description}</h1></body></html>`,
+        css: 'body { font-family: Arial; }',
+        js: 'console.log("Business site");'
+    };
 }
 
-function generateCSS(style) {
-    return `/* CSS مولد تلقائياً */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+function generatePortfolioSite(description) {
+    return {
+        html: `<!DOCTYPE html><html><body><h1>${description}</h1></body></html>`,
+        css: 'body { font-family: Tahoma; }',
+        js: 'console.log("Portfolio site");'
+    };
 }
 
-body {
-    font-family: 'Cairo', sans-serif;
-    direction: rtl;
-    background: #f5f5f5;
-    color: #333;
-    line-height: 1.6;
-}
-
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
-    text-align: center;
-}
-
-h1 {
-    color: #4f46e5;
-    margin-bottom: 1rem;
-    font-size: 2.5rem;
-}
-
-p {
-    font-size: 1.1rem;
-    margin-bottom: 0.5rem;
-    color: #666;
-}`;
-}
-
-function generateJS() {
-    return `// JavaScript مولد تلقائياً
-console.log('الموقع يعمل بنجاح!');
-
-// إضافة تفاعلية بسيطة
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('تم تحميل الصفحة');
+// ========== SPA SUPPORT ==========
+// إرجاع index.html لجميع المسارات (لـ SPA)
+app.get('*', (req, res) => {
+    // إذا كان الطلب لـ API، لا تعيد index.html
+    if (req.path.startsWith('/api/')) {
+        return res.status(404).json({ error: 'API endpoint not found' });
+    }
     
-    // تأثير بسيط عند التمرير
-    window.addEventListener('scroll', function() {
-        const header = document.querySelector('h1');
-        if (window.scrollY > 100) {
-            header.style.opacity = '0.9';
-        } else {
-            header.style.opacity = '1';
-        }
-    });
-});`;
-}
+    // إرجاع index.html لجميع المسارات الأخرى
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 // ========== START SERVER ==========
 if (require.main === module) {
     app.listen(PORT, () => {
-        console.log(`✅ Server running on http://localhost:${PORT}`);
-        console.log(`🌐 Base URL: ${process.env.BASE_URL || `http://localhost:${PORT}`}`);
+        console.log(`🚀 Server running on port ${PORT}`);
     });
 }
 
