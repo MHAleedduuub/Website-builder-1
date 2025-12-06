@@ -3,13 +3,14 @@
   "version": "1.0.0",
   "description": "AI Website Builder - Build websites with AI, upload files, edit code - Free & Professional",
   "main": "server.js",
-  "scripts": {
-    "start": "node server.js",
-    "build": "echo 'Build complete for Vercel' && exit 0",
-    "dev": "nodemon server.js",
-    "vercel-build": "npm install",
-    "test": "echo 'No tests yet'"
-  },
+  // تأكد من هذه السكريبتات:
+"scripts": {
+  "dev": "next dev",
+  "build": "next build",    // ⬅️ هذا مهم!
+  "start": "next start",
+  "lint": "next lint"
+}
+  
   "engines": {
     "node": ">=18.0.0",
     "npm": ">=8.0.0"
