@@ -1,41 +1,20 @@
-# ملفات Node.js
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
 # ملفات البيئة
 .env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+# .env.local    # احذف أو علق هذا السطر
 
-# مجلد التحميلات
-uploads/
-*.tmp
-*.log
+# التبعيات
+node_modules/
 
 # Next.js
 .next/
 out/
 
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
+# التحميلات
+uploads/
+temp/
 
-# نظام التشغيل
+# السجلات
+*.log
+
+# النظام
 .DS_Store
-Thumbs.db
-
-# Netlify
-.netlify/
-
-# Vercel
-.vercel/
-
-# Build
-dist/
-build/
