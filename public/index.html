@@ -8,109 +8,64 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        .loading {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
+        /* CSS احتياطي */
+        body {
+            font-family: 'Cairo', sans-serif;
+            margin: 0;
+            padding: 0;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
+            min-height: 100vh;
         }
-        
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid rgba(255,255,255,0.3);
-            border-radius: 50%;
-            border-top-color: white;
-            animation: spin 1s ease-in-out infinite;
-            margin-bottom: 20px;
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            text-align: center;
         }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        .btn {
+            display: inline-block;
+            background: #00d4ff;
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            margin: 1rem;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
-    <div class="loading" id="loading">
-        <div class="spinner"></div>
-        <h2>جاري تحميل التطبيق...</h2>
-        <p>موقع بناء المواقع بالذكاء الاصطناعي</p>
-    </div>
-    
-    <div id="app" style="display: none;">
-        <!-- سيتم تحميل المحتوى هنا -->
+    <div class="container">
+        <h1><i class="fas fa-robot"></i> بناء مواقع بالذكاء الاصطناعي</h1>
+        <p>موقعك يعمل! جرب الروابط التالية:</p>
+        <div>
+            <a href="/dashboard" class="btn">لوحة التحكم</a>
+            <a href="/ai-builder" class="btn">المنشئ الذكي</a>
+        </div>
+        
+        <div style="margin-top: 3rem; background: rgba(255,255,255,0.1); padding: 2rem; border-radius: 10px;">
+            <h3>إذا ظهرت صفحة خطأ 404، جرب:</h3>
+            <p>1. تأكد من وجود ملف `_redirects` في مجلد `public`</p>
+            <p>2. أضف هذا السطر فيه: <code>/* /index.html 200</code></p>
+            <p>3. أعد النشر على Netlify</p>
+        </div>
     </div>
     
     <script>
-        // تحميل المحتوى الديناميكي
-        async function loadContent() {
-            try {
-                // جلب المحتوى من الخادم
-                const response = await fetch('/');
-                const html = await response.text();
-                
-                // إخفاء شاشة التحميل
-                document.getElementById('loading').style.display = 'none';
-                
-                // عرض المحتوى
-                document.getElementById('app').innerHTML = html;
-                document.getElementById('app').style.display = 'block';
-                
-                // تشغيل الـ JavaScript بعد تحميل المحتوى
-                loadScripts();
-                
-            } catch (error) {
-                document.getElementById('loading').innerHTML = `
-                    <h2>حدث خطأ في التحميل</h2>
-                    <p>${error.message}</p>
-                    <button onclick="location.reload()">إعادة المحاولة</button>
-                `;
-            }
-        }
-        
-        function loadScripts() {
-            // تحميل JavaScripts
-            const scripts = [
-                '/js/app.js'
-            ];
-            
-            scripts.forEach(src => {
-                const script = document.createElement('script');
-                script.src = src;
-                document.body.appendChild(script);
-            });
-        }
-        
-        // بدء التحميل عند اكتمال تحميل الصفحة
-        window.addEventListener('DOMContentLoaded', loadContent);
-        
-        // توجيه SPA
-        window.addEventListener('click', function(e) {
-            if (e.target.tagName === 'A' && e.target.href) {
-                e.preventDefault();
-                const href = e.target.getAttribute('href');
-                
-                if (href.startsWith('/') && !href.startsWith('http')) {
-                    window.history.pushState({}, '', href);
-                    loadPage(href);
-                } else {
-                    window.location.href = href;
-                }
-            }
-        });
-        
-        async function loadPage(path) {
-            try {
-                const response = await fetch(path);
-                const html = await response.text();
-                document.getElementById('app').innerHTML = html;
-            } catch (error) {
-                console.error('Error loading page:', error);
-            }
-        }
+        // اختبار الاتصال بالخادم
+        fetch('/api/login', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({email: 'test@test.com', password: '123'})
+        })
+        .then(res => res.json())
+        .then(data => console.log('Server response:', data))
+        .catch(err => console.error('Connection error:', err));
     </script>
 </body>
 </html>
