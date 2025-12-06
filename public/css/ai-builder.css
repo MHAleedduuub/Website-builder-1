@@ -1,0 +1,333 @@
+/* تنسيقات خاصة لصفحة البناء بالذكاء الاصطناعي */
+
+.ai-builder-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.input-section, .preview-section {
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: var(--shadow);
+}
+
+.input-section .form-group {
+    margin-bottom: 1.5rem;
+}
+
+.input-section label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.input-section textarea, 
+.input-section select {
+    width: 100%;
+    padding: 1rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 0.5rem;
+    font-family: 'Cairo', sans-serif;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.input-section textarea:focus,
+.input-section select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.hint {
+    font-size: 0.9rem;
+    color: #6b7280;
+    margin-top: 0.5rem;
+}
+
+.checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: normal;
+    cursor: pointer;
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: auto;
+}
+
+#generateBtn {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.ai-info {
+    background: #f0f9ff;
+    border: 1px solid #bae6fd;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #0369a1;
+}
+
+/* قسم المعاينة */
+.preview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.preview-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.preview-container {
+    position: relative;
+    height: 400px;
+    border: 2px solid #e5e7eb;
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+#sitePreview {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+#previewPlaceholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #9ca3af;
+    text-align: center;
+    padding: 2rem;
+}
+
+#previewPlaceholder i {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.loading {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.9);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1rem;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading-note {
+    font-size: 0.9rem;
+    color: #6b7280;
+    margin-top: 0.5rem;
+}
+
+/* اقتراحات الذكاء الاصطناعي */
+.ai-suggestions {
+    margin-top: 1.5rem;
+    padding: 1.5rem;
+    background: #fef3c7;
+    border-radius: 0.5rem;
+    border: 1px solid #fbbf24;
+}
+
+.ai-suggestions h4 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #92400e;
+    margin-bottom: 1rem;
+}
+
+#suggestionsContent {
+    background: white;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    min-height: 100px;
+}
+
+/* توليد المحتوى */
+.content-generation {
+    grid-column: 1 / -1;
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: var(--shadow);
+    margin-top: 1rem;
+}
+
+.content-generation h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.content-form .form-group {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.content-form input {
+    flex: 1;
+    padding: 0.75rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 0.5rem;
+    font-family: 'Cairo', sans-serif;
+}
+
+.content-form select {
+    padding: 0.75rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 0.5rem;
+    font-family: 'Cairo', sans-serif;
+}
+
+.generated-content {
+    background: #f9fafb;
+    border: 2px solid #e5e7eb;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    min-height: 150px;
+    max-height: 300px;
+    overflow-y: auto;
+    line-height: 1.8;
+}
+
+/* إدارة الملفات */
+.file-manager {
+    grid-column: 1 / -1;
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: var(--shadow);
+    margin-top: 2rem;
+}
+
+.file-upload {
+    margin-top: 1rem;
+}
+
+.file-list {
+    margin-top: 1rem;
+    border: 2px dashed #e5e7eb;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    min-height: 100px;
+}
+
+/* نافذة عرض الكود */
+.code-modal {
+    max-width: 800px;
+}
+
+.code-tabs {
+    display: flex;
+    border-bottom: 1px solid #e5e7eb;
+    margin-bottom: 1rem;
+}
+
+.code-tab {
+    padding: 0.75rem 1.5rem;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    font-weight: 600;
+    cursor: pointer;
+    color: #6b7280;
+}
+
+.code-tab.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+}
+
+.code-content {
+    display: none;
+    background: #1f2937;
+    color: #e5e7eb;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    max-height: 400px;
+    overflow: auto;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+}
+
+.code-content.active {
+    display: block;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+/* تصميم متجاوب */
+@media (max-width: 1024px) {
+    .ai-builder-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .content-form .form-group {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 768px) {
+    .preview-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+    
+    .code-tabs {
+        overflow-x: auto;
+    }
+}
