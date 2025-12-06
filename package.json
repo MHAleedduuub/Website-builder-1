@@ -3,10 +3,9 @@
   "version": "1.0.0",
   "description": "AI Website Builder - Build websites with AI, upload files, edit code - Free & Professional",
   "main": "server.js",
-  // تأكد من هذه السكريبتات:
 "scripts": {
   "dev": "next dev",
-  "build": "next build",    // ⬅️ هذا مهم!
+  "build": "next build",    
   "start": "next start",
   "lint": "next lint"
 }
